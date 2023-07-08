@@ -127,10 +127,10 @@ body {
 
 
 #message-form input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    color: #e6e6e6;
+    color: #8e8d8d;
 }
 #message-form input::-moz-placeholder { /* Firefox 19+ */
-    color: #e6e6e6;
+    color: #898989;
 }
 
 @keyframes typing {
@@ -193,11 +193,11 @@ body {
 
 /* Aggiungi il CSS per il contenuto delle crypto nel modal */
 #crypto-modal-body {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 #crypto-modal-body p {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 /* Animazione di apertura del rettangolo laterale */
@@ -277,6 +277,19 @@ to {
   
 .modal-content::-webkit-scrollbar-thumb:vertical {
     scrollbar-arrow-color: transparent; /* Imposta le frecce di scorrimento come trasparenti */
+}
+
+#crypto-modal h2 {
+    padding-bottom: 17px;
+    border-bottom: 1px solid #aaaaaa;  /* aggiunge una linea di separazione */
+}
+
+.crypto-item {
+    display: flex;
+    align-items: center;
+}
+.crypto-item img {
+    margin-right: 10px; /* aggiunge spazio a destra del logo */
 }
 
 /* Stile per l'elemento al passaggio del mouse */

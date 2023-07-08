@@ -30,6 +30,28 @@ functions_description = [
         },
     },
     {
+        "name": "get_rate",
+        "description": "Calculates the amount of target cryptocurrency (crypto B) obtained from a certain amount of source cryptocurrency (crypto A) based on the exchange rate.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "from_currency_amount": {
+                    "type": "number",
+                    "description": "The amount of the source cryptocurrency that you want to exchange."
+                },
+                "rate": {
+                    "type": "number",
+                    "description": "The exchange rate between the source and target cryptocurrency. It indicates how many units of the target cryptocurrency you get for one unit of the source cryptocurrency."
+                }
+            },
+            "required": ["from_currency_amount", "rate"]
+        },
+        "returns": {
+            "type": "number",
+            "description": "The amount of target cryptocurrency that will be obtained based on the input amount of source cryptocurrency and the exchange rate."
+        }
+    },
+    {
         "name": "get_order",
         "description": "Returns the details of an order. First you need to ask user for order ID.",
         "parameters": {

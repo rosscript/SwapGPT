@@ -57,7 +57,7 @@ $(document).ready(function() {
     typeMessage(initialMessage, initialMessageContainer);
 
     // Crea i pulsanti
-    var button1 = $("<button>Availability</button>").attr('id', 'availability-button').css({
+    var button1 = $("<button>📄 Availability</button>").attr('id', 'availability-button').css({
         "padding": "10px",
         "margin-right": "10px",
         "background-color": "#545454",
@@ -67,7 +67,7 @@ $(document).ready(function() {
         "border": "none"
     });
 
-    var button2 = $("<button>New Order</button>").attr('id', 'neworder-button').css({
+    var button2 = $("<button>✍🏻 New Order</button>").attr('id', 'neworder-button').css({
         "padding": "10px",
         "margin-right": "10px",
         "background-color": "#545454",
@@ -77,7 +77,7 @@ $(document).ready(function() {
         "border": "none"
     });
 
-    var button3 = $("<button>Order Info</button>").attr('id', 'orderinfo-button').css({
+    var button3 = $("<button>ℹ️ Order Info</button>").attr('id', 'orderinfo-button').css({
         "padding": "10px",
         "background-color": "#545454",
         "color": "#e6e6e6",
@@ -228,11 +228,27 @@ $(document).ready(function() {
     
                 // Deseleziona tutte le voci
                 $('.crypto-item.selected').removeClass('selected');
+                var i = 0;
+                var speed = 30; // tempo in millisecondi per ogni carattere
+                let swapMessage = "I want to swap " + selectedCurrenciesFinal[0] + " with " + selectedCurrenciesFinal[1];
+                $("#user-message").val("");
+                $('#user-message').focus();
+                $("#neworder-button").prop("disabled", true);
+                $("#orderinfo-button").prop("disabled", true);
+                function typeWriter() {
+                    if (i < swapMessage.length) {
+                        $('#user-message').val($('#user-message').val() + swapMessage.charAt(i));
+                        i++;
+                        setTimeout(typeWriter, speed);
+                    } else {
+                        $("#neworder-button").prop("disabled", false);
+                        $("#orderinfo-button").prop("disabled", false);
+                    }
+                }
+            
+                typeWriter();
             }
-        }
-    
-        // Aggiorna la barra di input con le valute selezionate
-        $("#user-message").val(selectedCurrenciesFinal.join(" "));
+        } 
     });
     
 
@@ -243,12 +259,46 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#neworder-button', function() {
-        $("#user-message").val("I want to change ... ");
+        $("#orderinfo-button").prop("disabled", true);
+        $("#user-message").val("");
+        $('#user-message').focus();
+        var message = "I want to change ..";
+        var i = 0;
+        var speed = 30; // tempo in millisecondi per ogni carattere
+        function typeWriter() {
+            if (i < message.length) {
+                $('#user-message').val($('#user-message').val() + message.charAt(i));
+                i++;
+                setTimeout(typeWriter, speed);
+            } else {
+                $("#orderinfo-button").prop("disabled", false);
+            }
+        }
+        typeWriter();
     });
+    
 
     $(document).on('click', '#orderinfo-button', function() {
-        $("#user-message").val("Give me info about order ID: ");
+        $("#neworder-button").prop("disabled", true);
+        $("#user-message").val("");
+        $('#user-message').focus();
+        var message = "Give me info about order ID: ";
+        var i = 0;
+        var speed = 30; // tempo in millisecondi per ogni carattere
+    
+        function typeWriter() {
+            if (i < message.length) {
+                $('#user-message').val($('#user-message').val() + message.charAt(i));
+                i++;
+                setTimeout(typeWriter, speed);
+            } else {
+                $("#neworder-button").prop("disabled", false);
+            }
+        }
+    
+        typeWriter();
     });
+    
 });
 
 
