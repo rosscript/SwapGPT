@@ -341,80 +341,42 @@ to {
 .hidden {
     display: none;
 }
+
+
 .order-data-div {
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(255, 255, 255, 0);
-    color: #ffffff;
-    padding: 5px;
+    display: block;
+    background-color: white;
+    color: #272727;
+    padding: 15px;
     border-radius: 5px;
     margin-top: 10px;
-    margin: 10px 0;
-}
-
-.top-div, .bottom-div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: #2d2d2d;
-}
-
-.div-left, .div-center, .div-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px;
-}
-
-.div-center {
-    width: 50%;
-    height: 100%;
     text-align: left;
+    max-width: 1000px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.05);
 }
 
-.amount-center {
-    font-size: large;
-    color: #f7931a;
-    font-weight: bold;
-}
-
-.address-center {
-    font-size: larger;
-    font-weight: bold;
-}
-
-.paragraph-center {
-    margin-top: 10px;
-}
-
-.div-left {
-    text-align: center;
-}
-
-.div-from, .div-to {
+.order-data-div .top-div {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
-.div-from .text, .div-to .text {
-    flex: 1;
+.top-div {
+    margin-bottom: 10px;
 }
 
-.address {
-    font-size: smaller;
+.middle-div {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
-.div-from .text {
-    text-align: right;
-}
-
-.div-from .svg, .div-to .svg {
-    margin: 0 10px;
+.bottom-div {
+    padding-top: 10px;
 }
 
 .new-message {
@@ -422,15 +384,5 @@ to {
     color: white;
     padding: 5px;
     border-radius: 5px;
+    margin-top: 10px;
 }
-
-
-.title {
-    font-weight: bold;
-    padding-top: 5px;
-}
-
-.content {
-    font-weight: normal;
-}
-

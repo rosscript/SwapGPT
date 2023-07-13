@@ -13,12 +13,6 @@ function typeMessage(message, container) {
 }
 
 $(document).ready(function() {
-    $(document).ready(function() {
-        $("#logo").click(function() {
-            window.location.href = "/";
-        });
-    });
-
     var modal = document.getElementById("crypto-modal");
     var closeButton = document.getElementsByClassName("close")[0];
     
@@ -94,35 +88,50 @@ $(document).ready(function() {
             },
             success: function(response) {
                 $("#typing-indicator").addClass("hidden");
-                            
+                
                 // Se i dati dell'ordine sono presenti nella risposta
                 if (response.order_data) {
                     console.log(response.order_data);
                     var orderData = JSON.parse(response.order_data);
-
-                    // Utilizza la funzione createOrderDataDiv per creare l'elemento orderDataDiv
-                    var orderDataDiv = createOrderDataDiv(orderData);
-
-                    // Aggiungi il div dei dati dell'ordine al container della risposta                       
-                    orderDataDiv.hide();
-                    $("#response-container").append(orderDataDiv);
-
-                    // Inizia l'animazione del #chat-container
-                    $("#chat-container").animate({
-                        marginTop: "100px"  // Sostituisci con il valore desiderato
-                    }, 2000);  // Durata dell'animazione in millisecondi
-
-                    // Fai il fade in di orderDataDiv
-                    orderDataDiv.fadeIn("slow");
-
+                    
+                    // Crea un nuovo div per i dati dell'ordine
+                    var orderDataDiv = $("<div></div>").addClass("order-data-div");
+            
+                    if (orderData.data) {
+                        // Crea i tre sottodiv
+                        var topDiv = $("<div></div>").addClass("top-div");
+                        var middleDiv = $("<div></div>").addClass("middle-div");
+                        var bottomDiv = $("<div></div>").addClass("bottom-div");                    
+            
+                        var orderIdSpan = $('<span></span>').text('OrderID: ' + orderData.data.id);
+                        topDiv.html(orderIdSpan);
+            
+                        var bottomInfo = 'Send ' + orderData.data.from.amount + ' ' + orderData.data.from.symbol + ' to ' + orderData.data.from.address + '<br><br>' +
+                            'Receive ' + orderData.data.to.amount + ' ' + orderData.data.to.symbol + ' to ' + orderData.data.to.address;
+            
+                        middleDiv.html(bottomInfo);
+                    
+                        var remainingTimeSpan = $('<span></span>').text(' Remaining: ' + orderData.data.left + 's');
+                        var timestampSpan = $('<span></span>').text(' Creation: ' + new Date(orderData.data.reg * 1000).toLocaleString());
+                        bottomDiv.append(remainingTimeSpan);
+                        bottomDiv.append(timestampSpan);
+                    
+                        orderDataDiv.append(topDiv);
+                        orderDataDiv.append(middleDiv);
+                        orderDataDiv.append(bottomDiv);
+                        // Aggiungi il div dei dati dell'ordine al container della risposta                       
+                        orderDataDiv.hide();
+                        $("#response-container").append(orderDataDiv);
+                        orderDataDiv.fadeIn("slow");
+                    }
                 }
-                        
+            
                 var newMessage = $("<div></div>").addClass("new-message");
                 $("#response-container").append(newMessage);
                 typeMessage(response.response, newMessage);
                 newMessage.after(buttonContainer.clone()); // Append the buttons again after each message
-            },             
-         
+            },
+                       
             error: function(xhr, status, error) {
                 $("#typing-indicator").addClass("hidden");
                 console.error(error);
