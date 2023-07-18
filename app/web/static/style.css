@@ -1,0 +1,441 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Modificato da center a flex-start */
+    height: 100vh;
+    background-color: #272727;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+#chat-container {
+    width: 50%;
+    text-align: center;
+    margin-top: 150px;
+}
+
+#logo {
+    font-size: 3em;
+    margin-bottom: 0.5em;
+    color: white;
+}
+
+#message-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 1em;
+    position: relative;
+    width: 70%;
+}
+
+#message-form input {
+    padding: 0.5em;
+    width: 100%;
+    padding-right: 40px; /* creates space for the icon */
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-size: 1em;
+    padding-left: 15px;
+    background-color: #545454;
+}
+#message-form input:focus {
+    outline: none;
+    border: 2px solid #d8d8d8; /* Cambia il colore come desideri */
+}
+
+
+#message-form button {
+    padding: 0.5em 1em;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #333; /* or any color you want for the icon */
+}
+
+.initial-message-container {
+    background-color: #272727;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.button-style {
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #545454;
+    color: #e6e6e6;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+#orderinfo-button {
+    margin-right: 0;
+}
+
+.button-container {
+    display: flex;
+    justify-content: left;
+    margin-top: 30px;
+    margin-bottom: 100px;
+}
+
+#response-container {
+    text-align: left;
+    max-width: 700px;
+}
+
+#typing-indicator.hidden {
+    display: none;
+}
+
+#chat-container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#message-form {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#message-form button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #54545400;
+    color: #a9a9a9;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#message-form input:focus + button i {
+    color: #ffffff; 
+}
+
+#response-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: justify;
+}
+
+#typing-indicator {
+    background-color: #272727;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+
+#message-form input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #8e8d8d;
+}
+#message-form input::-moz-placeholder { /* Firefox 19+ */
+    color: #898989;
+}
+
+@keyframes typing {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    40% { opacity: 0; }
+    60% { opacity: 1; }
+    80% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+#typing-indicator {
+    animation: typing 3s linear infinite;
+}
+
+
+/* Aggiungi il CSS per il modal */
+/* Aggiungi il CSS per il modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border: none;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Aggiungi il CSS per il contenuto delle crypto nel modal */
+#crypto-modal-body {
+    margin-top: 30px;
+}
+
+#crypto-modal-body p {
+    margin-bottom: 15px;
+}
+
+/* Animazione di apertura del rettangolo laterale */
+@keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+}
+
+/* Animazione di chiusura del rettangolo laterale */
+@keyframes slideOut {
+from {
+    transform: translateX(0);
+}
+to {
+    transform: translateX(-100%);
+}
+}
+
+/* Classe per animazione di apertura */
+.slide-in {
+    animation: slideIn 0.3s forwards;
+}
+
+/* Classe per animazione di chiusura */
+.slide-out {
+    animation: slideOut 0.3s forwards;
+}
+  
+.modal.closed {
+    display: none;
+}
+
+.modal-content {
+    width: 350px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    overflow: hidden;
+    overflow-y: auto;
+    transition: width 0.3s, transform 0.3s;
+}
+
+.slide-in .modal-content {
+    width: 300px;
+    transform: translateX(0);
+}
+
+.slide-out .modal-content {
+    width: 0;
+    transform: translateX(-100%);
+}
+
+
+.modal-content::-webkit-scrollbar {
+    width: 6px; /* Imposta la larghezza della barra di scorrimento */
+  }
+  
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: #888; /* Imposta il colore della barra di scorrimento */
+    border-radius: 3px; /* Imposta il bordo della barra di scorrimento */
+}
+  
+.modal-content::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Imposta il colore dello sfondo della barra di scorrimento */
+}
+  
+.modal-content::-webkit-scrollbar-button {
+    display: none; /* Rimuovi le frecce di scorrimento */
+}
+  
+.modal-content::-webkit-scrollbar-thumb:vertical {
+    scrollbar-arrow-color: transparent; /* Imposta le frecce di scorrimento come trasparenti */
+}
+
+#crypto-modal h2 {
+    padding-bottom: 17px;
+    border-bottom: 1px solid #aaaaaa;  /* aggiunge una linea di separazione */
+}
+
+.crypto-item {
+    display: flex;
+    align-items: center;
+}
+.crypto-item img {
+    margin-right: 10px; /* aggiunge spazio a destra del logo */
+}
+
+/* Stile per l'elemento al passaggio del mouse */
+.crypto-item:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+/* Stile per l'elemento selezionato */
+.crypto-item.selected {
+    background-color: #444;
+    color: #fff;
+}
+
+#order-info {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.order-data-div {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0);
+    color: #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin: 10px 0;
+}
+
+.top-div, .bottom-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #2d2d2d;
+    width: 1000px;
+}
+
+.div-left, .div-center, .div-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.div-center {
+    width: 50%;
+    height: 100%;
+    text-align: left;
+}
+
+.amount-center {
+    font-size: large;
+    font-weight: bold;
+}
+
+.address-center {
+    font-size: larger;
+    font-weight: bold;
+    word-wrap: break-word; /* Legacy name, for older browsers */
+    overflow-wrap: break-word; /* Standard name, for modern browsers */
+}
+
+.paragraph-center {
+    margin-top: 10px;
+}
+
+.div-left {
+    text-align: center;
+}
+
+.div-from, .div-to {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.div-from .text, .div-to .text {
+    flex: 1;
+}
+
+.address {
+    font-size: smaller;
+}
+
+.div-from .text {
+    text-align: right;
+}
+
+.div-from .svg, .div-to .svg {
+    margin: 0 10px;
+}
+
+.new-message {
+    background-color: #272727;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+.title {
+    font-weight: lighter;
+    padding-top: 5px;
+}
+
+.content {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+

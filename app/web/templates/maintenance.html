@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SwapGPT</title>
+    <script src="https://kit.fontawesome.com/19a662058d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <h1 id="logo">🧠SwapGPT</h1>
+        <div id="message-form">
+            <input type="text" id="user-message" name="user-message" placeholder="Ask for some crypto swap...">
+            <button type="submit" disabled>
+                <i class="fa-regular fa-circle-right fa-xl"></i>
+            </button>            
+        </div>
+        
+        <div id="response-container">
+            <div id="typing-indicator" class="hidden">...</div>
+            <div class="initial-message-container"> ERROR. Technical work is underway, we will be back soon!😇</div>
+        </div>
+    </div>    
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='order_data.js') }}"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
+

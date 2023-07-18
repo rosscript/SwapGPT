@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SwapGPT</title>
+    <script src="https://kit.fontawesome.com/19a662058d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="chat-container" style="margin-top: 100px;">
+        <h1 id="logo">🧠SwapGPT</h1>
+        <div id="message-form">
+            <input type="text" id="user-message" name="user-message" placeholder="Ask for some crypto swap...">
+            <button type="submit">
+                <i class="fa-regular fa-circle-right fa-xl"></i>
+            </button>            
+        </div>
+        
+        <div id="response-container">
+            <div class="order-data-div">
+            {% if order %}
+                <div class="top-div">
+                    <div class="div-from">
+                        <div class="text">
+                            <div class="amount">Send {{ order.from.amount }} {{ order.from.coin }} to</div>
+                            <div class="address">{{ order.from.address }}</div>
+                        </div>
+                        <div class="svg">
+                            <img src="https://fixedfloat.com/assets/images/coins/svg/{{ order.from.code | lower }}.svg" style="width:70px;">
+                        </div>
+                    </div>
+                    <i class='fa-solid fa-angles-right fa-2xl' style='color: #ffffff;'></i>
+                    <div class="div-to">
+                        <div class="svg">
+                            <img src="https://fixedfloat.com/assets/images/coins/svg/{{ order.to.code | lower }}.svg" style="width:70px;">
+                        </div>
+                        <div class="text">
+                            <div class="amount">Receive {{ order.to.amount }} {{ order.to.coin }} on</div>
+                            <div class="address">{{ order.to.address }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-div">
+                    <div class="div-left">
+                        <div class="order">
+                            <div class="title">OrderID</div>
+                            <div class="content">{{ order.id }}</div>
+                        </div>
+                        <div class="time">
+                            <div class="title">Remaining</div>
+                            <div class="content">{{ order.time.left }}s</div>
+                        </div>
+                        <div class="creation">
+                            <div class="title">Creation</div>
+                            <div class="content">{{ order.time.reg * 1000 }}</div>
+                        </div>
+                    </div>
+
+                    <div class="div-center">
+                        <div class="text-amount-center">
+                            Send <span class="amount-center">{{ order.from.amount }} {{ order.from.coin }}</span> to the address:
+                        </div>
+                        <div class="address-center">{{ order.from.address }}</div>
+                        <div class="paragraph-center">Save the order ID to track the status of your exchange or for support.</div>
+                    </div>
+
+                    <div class="div-right">
+                        <div class="qrcode">
+                            <img style="width:150px; border-radius: 10px;" src="https://www.investopedia.com/thmb/hJrIBjjMBGfx0oa_bHAgZ9AWyn0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/qr-code-bc94057f452f4806af70fd34540f72ad.png">
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal  -->
+    <div id="crypto-modal" class="modal closed">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>📄 Availability</h2>
+            <div id="crypto-modal-body">
+                <!-- Aggiungi questo al tuo HTML -->
+                <div id="crypto-list">
+                    {% for currency in currencies %}
+                    <p class="crypto-item" data-currency="{{ currency.code }}">
+                        <img src="{{ currency.logo }}" alt="{{ currency.code }}" style="width:20px; height:20px;">
+                        {{ currency.name }}
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='order_data.js') }}"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
+
