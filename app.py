@@ -146,7 +146,7 @@ def process_message():
         pop_sixth_message()
     data = request.get_json()
     user_message = data.get("message", "")
-    print(len(session['messages']))
+    print("Message array length: " + str(len(session['messages'])))
     response, order_data = run_conversation(user_message)
 
     return jsonify({"response": response, "order_data": order_data})
@@ -179,5 +179,5 @@ def get_order_page(order_id):
         return render_template('maintenance.html')
 
 if __name__ == "__main__":
-    app.run(port=5002, debug=True)
+    app.run(port=5000, debug=True)
 

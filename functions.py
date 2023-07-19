@@ -1,10 +1,10 @@
 import requests
-from FixedFloatApi import FixedFloatApi
+from ffapi.ffapi import ffapi
 import os
 import json 
 import csv
 
-api = FixedFloatApi(os.getenv("FF_API_KEY"),os.getenv("FF_SECRET_KEY"))
+api = ffapi(os.getenv("FF_API_KEY"),os.getenv("FF_SECRET_KEY"))
 
 def get_currencies():
     response = api.ccies()
@@ -42,7 +42,6 @@ def save_order(order_id, token):
 def get_exchange_price(price_data):
     price_data["type"] = "fixed"
     price_data["direction"] = "from"
-    print(price_data)
     response = api.price(price_data)
     return json.dumps(response)
 
@@ -59,13 +58,7 @@ def generate_qr(qr_data):
     return json.dumps(response)
 
 def filter_currencies(currencies):
-    # Convert the string to a list of dictionaries
     data = json.loads(currencies)
-
-    # Create a new list with dictionaries that only contain the keys you're interested in
     filtered_data = [{"code": x["code"], "coin": x["coin"], "network": x["network"]} for x in data]
-
-    # Convert the list back to a JSON string
     filtered_currencies = json.dumps(filtered_data)
-
     return filtered_currencies

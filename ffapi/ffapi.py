@@ -3,7 +3,7 @@ import json
 import hmac
 import hashlib
 
-class FixedFloatApi:
+class ffapi:
     RESP_OK = 0
     TYPE_FIXED = 'fixed'
     TYPE_FLOAT = 'float'
