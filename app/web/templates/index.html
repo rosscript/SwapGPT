@@ -30,20 +30,39 @@
             <span class="close">&times;</span>
             <h2>📄 Availability</h2>
             <div id="crypto-modal-body">
-                <!-- Aggiungi questo al tuo HTML -->
-                <div id="crypto-list">
+                <!-- Most Popular Section -->
+                <h4 style="margin-bottom: 15px;">Most Popular</h4>
+                <div id="crypto-list-popular">
+                    {% for currency in currencies if currency.priority > 0 %}
+                    <div class="crypto-item-div">
+                        <p class="crypto-item" data-currency="{{ currency.code }}">
+                            <img src="{{ currency.logo }}" alt="{{ currency.code }}" style="width:20px; height:20px;">
+                            {{ currency.name }}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- All Currencies Section -->
+                <h4 style="margin-bottom: 15px; margin-top: 25px;">All Currencies</h4>
+                <div id="crypto-list-all">
                     {% for currency in currencies %}
-                    <p class="crypto-item" data-currency="{{ currency.code }}">
-                        <img src="{{ currency.logo }}" alt="{{ currency.code }}" style="width:20px; height:20px;">
-                        {{ currency.name }}
-                    </p>
+                    <div class="crypto-item-div">
+                        <p class="crypto-item" data-currency="{{ currency.code }}">
+                            <img src="{{ currency.logo }}" alt="{{ currency.code }}" style="width:20px; height:20px;">
+                            {{ currency.name }}
+                        </p>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
-    
 
+    
+    <script type="text/javascript">
+        var currencies = {{ currencies|tojson|safe }};
+        console.log(currencies);
+    </script> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='order_data.js') }}"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>

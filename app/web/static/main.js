@@ -1,5 +1,3 @@
-var currencies = {};
-
 function typeMessage(message, container) {
     var i = 0;
     var interval = setInterval(function() {
@@ -108,7 +106,7 @@ $(document).ready(function() {
 
                     // Inizia l'animazione del #chat-container
                     $("#chat-container").animate({
-                        marginTop: "100px"  // Sostituisci con il valore desiderato
+                        marginTop: "70px"  // Sostituisci con il valore desiderato
                     }, 2000);  // Durata dell'animazione in millisecondi
 
                     // Fai il fade in di orderDataDiv

@@ -98,7 +98,10 @@
         </div>
     </div>
     
-
+    <script type="text/javascript">
+        var currencies = {{ currencies|tojson|safe }};
+        console.log(currencies);
+    </script> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='order_data.js') }}"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>

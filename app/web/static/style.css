@@ -23,6 +23,7 @@ body {
     font-size: 3em;
     margin-bottom: 0.5em;
     color: white;
+    cursor: pointer;
 }
 
 #message-form {
@@ -333,6 +334,10 @@ to {
     color: #fff;
 }
 
+.crypto-item.selected {
+    background-color: #444;
+    color: #fff;
+}
 #order-info {
     border: 1px solid #ccc;
     padding: 10px;
