@@ -112,6 +112,11 @@ $(document).ready(function() {
                     // Fai il fade in di orderDataDiv
                     orderDataDiv.fadeIn("slow");
 
+                }else{
+                    // Inizia l'animazione del #chat-container
+                    $("#chat-container").animate({
+                        marginTop: "150px"  // Sostituisci con il valore desiderato
+                    }, 1000);  // Durata dell'animazione in millisecondi
                 }
                         
                 var newMessage = $("<div></div>").addClass("new-message");

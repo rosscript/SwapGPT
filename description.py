@@ -8,7 +8,7 @@ initial_prompt = [
 functions_description = [
     {
         "name": "create_order",
-        "description": "Creates an exchange order with the provided parameters.",
+        "description": "Creates an exchange order with the provided parameters. Ask to user all the parameters, dont't use default/example values.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -47,6 +47,20 @@ functions_description = [
         },
     },
     {
+        "name": "delete_order",
+        "description": "Delete the order. First you need to ask user for order ID.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "order_id": {
+                    "type": "string",
+                    "description": "The id of the order to delete.",
+                }
+            },
+            "required": ["order_id"],
+        },
+    },
+    {
         "name": "get_exchange_price",
         "description": "Returns the conversion rate between two currencies.",
         "parameters": {
@@ -66,6 +80,24 @@ functions_description = [
                 }
             },
             "required": ["fromCcy", "toCcy", "amount"],
+        },
+    },
+    {
+        "name": "get_currency_price",
+        "description": "Returns the rate for given currency againist USDT.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "fromCcy": {
+                    "type": "string",
+                    "description": "The currency to get price in USDT. Ex: BTC, ETH, etc.",
+                },
+                "amount": {
+                    "type": "number",
+                    "description": "The amount of the 'from' currency to get price.",
+                }
+            },
+            "required": ["fromCcy", "amount"],
         },
     }
 ]

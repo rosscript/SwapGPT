@@ -15,7 +15,9 @@ from functions import (
     get_exchange_price,
     generate_qr,
     save_order,
-    filter_currencies
+    filter_currencies,
+    delete_order,
+    get_currency_price,
 )
 
 
@@ -34,7 +36,6 @@ app.config['SESSION_USE_SIGNER'] = True
 app.config['SESSION_FILE_DIR'] = tempfile.mkdtemp()
 Session(app)
 
-#Riporta la conversazione allo stato iniziale
 def clear_messages(filtered_currencies):
     session['messages'] = []
     session['messages'].extend(initial_prompt)
@@ -57,7 +58,9 @@ def run_conversation(user_message):
     available_functions = {
         "create_order": create_order,
         "get_order": get_order,
-        "get_exchange_price": get_exchange_price
+        "get_exchange_price": get_exchange_price,
+        "delete_order": delete_order,
+        "get_currency_price": get_currency_price,
     }
 
     while True:
@@ -91,7 +94,10 @@ def run_conversation(user_message):
         if function_to_call == get_exchange_price:
             limit_messages()
             price_data_json = json.loads(function_response)
+            del price_data_json['to']
             if 'errors' in price_data_json and 'LIMIT_MAX' in price_data_json['errors']:
+                del price_data_json['errors']
+            if 'errors' in price_data_json and 'LIMIT_MIN' in price_data_json['errors']:
                 del price_data_json['errors']
                 
         if function_to_call == create_order:
@@ -142,27 +148,14 @@ def run_conversation(user_message):
 
 @app.route('/process_message', methods=['POST'])
 def process_message():
-    if len(session['messages']) > 12:
+    if 'messages' in session and len(session['messages']) > 12:
         pop_sixth_message()
     data = request.get_json()
     user_message = data.get("message", "")
-    print("Message array length: " + str(len(session['messages'])))
+    print("Message array length: " + str(len(session.get('messages', []))))
     response, order_data = run_conversation(user_message)
 
     return jsonify({"response": response, "order_data": order_data})
-
-@app.route('/')
-def index():
-    try:
-        currencies = get_currencies()
-        filtered_currencies = filter_currencies(currencies)
-        clear_messages(filtered_currencies)
-        currencies = json.loads(currencies)
-        return render_template('index.html', currencies=currencies)
-    except Exception as e:
-        app.logger.error(f"Error when loading currencies: {e}")
-        return render_template('maintenance.html')
-
 
 @app.route('/order/<order_id>')
 def get_order_page(order_id):
@@ -178,6 +171,21 @@ def get_order_page(order_id):
         app.logger.error(f"Error when loading currencies: {e}")
         return render_template('maintenance.html')
 
+    
+@app.route('/')
+def index():
+    if 'messages' not in session:
+        session['messages'] = []
+    try:
+        currencies = get_currencies()
+        filtered_currencies = filter_currencies(currencies)
+        clear_messages(filtered_currencies)
+        return render_template('index.html', currencies=currencies)
+    except Exception as e:
+        app.logger.error(f"Error when loading currencies: {e}")
+        return render_template('maintenance.html')
+
+    
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
 
