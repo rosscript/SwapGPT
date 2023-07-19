@@ -1,8 +1,9 @@
 from dotenv import load_dotenv
-import os
+import os, tempfile
 import json
 import csv
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, session
+from flask_session import Session
 from jinja2 import Environment, select_autoescape
 import openai
 from description import functions_description, initial_prompt
@@ -17,7 +18,7 @@ from functions import (
     filter_currencies
 )
 
-messages = initial_prompt
+
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_SECRET_KEY")
 
@@ -26,29 +27,31 @@ app = Flask(__name__,
             static_folder='web/static',
             template_folder='web/templates')
 
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SECRET_KEY'] = os.urandom(24)
+app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_USE_SIGNER'] = True
+app.config['SESSION_FILE_DIR'] = tempfile.mkdtemp()
+Session(app)
+
 #Riporta la conversazione allo stato iniziale
 def clear_messages(filtered_currencies):
-    global messages
-    messages = []
-    messages.extend(initial_prompt)
-    messages.append({"role": "system", "content": f"Warning: when a user asks you for information about a crypto (Ex. USDC), consider that for each crypto there may be several different networks. Always ask which network you want to operate for. Possible networks are: {filtered_currencies}."})
+    session['messages'] = []
+    session['messages'].extend(initial_prompt)
+    session['messages'].append({"role": "system", "content": f"Warning: when a user asks you for information about a crypto (Ex. USDC), consider that for each crypto there may be several different networks. Always ask which network you want to operate for. Possible networks are: {filtered_currencies}."})
 
 #Cancella tutti i messaggi tranne lo stato iniziale
 def limit_messages():
-    global messages
-    if len(messages) > 5:
-        messages = messages[:5]
+    if len(session['messages']) > 5:
+        session['messages'] = session['messages'][:5]
 
 #Cancella i messaggi 6 e 7 (la prima domanda e risposta)
 def pop_sixth_message():
-    global messages
-    messages.pop(6)
-    messages.pop(6)
+    session['messages'].pop(6)
+    session['messages'].pop(6)
 
 def run_conversation(user_message):
-    global messages
-        
-    messages.append({"role": "user", "content": user_message})
+    session['messages'].append({"role": "user", "content": user_message})
     order_data = None
      
     available_functions = {
@@ -60,12 +63,12 @@ def run_conversation(user_message):
     while True:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-0613",
-            messages=messages,
+            messages=session['messages'],
             functions=functions_description,
             function_call="auto",
         )
         response_message = response["choices"][0]["message"]
-        messages.append(response_message)
+        session['messages'].append(response_message)
         
         if not response_message.get("function_call"):
             break
@@ -127,7 +130,7 @@ def run_conversation(user_message):
             else:
                 function_response = "Failed. Reason: " + order_data_json
  
-        messages.append(
+        session['messages'].append(
             {
                 "role": "function",
                 "name": function_name,
@@ -139,12 +142,11 @@ def run_conversation(user_message):
 
 @app.route('/process_message', methods=['POST'])
 def process_message():
-    global  messages
-    if len(messages) > 12:
+    if len(session['messages']) > 12:
         pop_sixth_message()
     data = request.get_json()
     user_message = data.get("message", "")
-    print(len(messages))
+    print(len(session['messages']))
     response, order_data = run_conversation(user_message)
 
     return jsonify({"response": response, "order_data": order_data})
@@ -175,7 +177,7 @@ def get_order_page(order_id):
     except Exception as e:
         app.logger.error(f"Error when loading currencies: {e}")
         return render_template('maintenance.html')
-    
+
 if __name__ == "__main__":
     app.run(port=5002, debug=True)
 
