@@ -6,10 +6,10 @@ Demonstration of how to use Openai's API with Function Calling, in combination w
 
 
 Features:
-- Ask for information
-- Creating a swap order
-- Asking for updates on an order
-- Consult available cryptocurrencies
+- Ask for information obout price
+- Creating a new swap order
+- Asking for updates on an order by Order ID
+- Consult available cryptocurrencies and rate
 
 # Setup
 1. Clone the repository
